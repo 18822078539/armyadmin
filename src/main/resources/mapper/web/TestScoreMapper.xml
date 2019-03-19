@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.army.armyadmin.web.dao.TestScoreMapper">
+  <resultMap id="BaseResultMap" type="com.army.armyadmin.web.domain.TestScore">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="score1" jdbcType="VARCHAR" property="score1" />
+    <result column="evalute" jdbcType="VARCHAR" property="evalute" />
+  </resultMap>
+</mapper>

@@ -19,7 +19,7 @@
         <!-- 数据库链接地址账号密码 -->
         <jdbcConnection 
         	driverClass="com.mysql.jdbc.Driver" 
-        	connectionURL="jdbc:mysql://120.79.15.107:3306/companymanager"
+        	connectionURL="jdbc:mysql://120.79.15.107:3306/armyadmin"
         	userId="root" 
         	password="cx1314**">
         </jdbcConnection>
@@ -43,7 +43,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 配置需要生成的表 -->
-        <table tableName="tb_stock_order" domainObjectName="StockOrder" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
+        <table tableName="tb_test_score" domainObjectName="TestScore" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="mysql" identity="true"/>
         </table>
     </context>
