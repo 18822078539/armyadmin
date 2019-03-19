@@ -16,10 +16,30 @@ public class TestProject {
     private Integer typeid;
 
     private Date testtime;
+    @Transient
+    private String testtimestr;
 
     private String person;
 
     private String des;
+    @Transient
+    private String typename;
+
+    public String getTesttimestr() {
+        return testtimestr;
+    }
+
+    public void setTesttimestr(String testtimestr) {
+        this.testtimestr = testtimestr;
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
 
     /**
      * @return id

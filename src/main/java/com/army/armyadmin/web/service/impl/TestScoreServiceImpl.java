@@ -2,7 +2,7 @@ package com.army.armyadmin.web.service.impl;
 
 import com.army.armyadmin.common.service.impl.BaseService;
 import com.army.armyadmin.web.domain.TestScore;
-import com.army.armyadmin.web.service.ITestScoreService;
+import com.army.armyadmin.web.service.TestScoreService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Service;
  * @Modified By:
  */
 @Service
-public class TestScoreServiceImpl extends BaseService<TestScore> implements ITestScoreService{
+public class TestScoreServiceImpl extends BaseService<TestScore> implements TestScoreService {
 }

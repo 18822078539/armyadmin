@@ -21,4 +21,20 @@ public class DateUtil {
         Date d = sdf.parse(date);
         return DateUtil.getDateFormat(d, format);
     }
+
+    /***
+     *
+     * @param formate
+     * @param dateStr
+     * @return
+     */
+    public static Date strToDate(String formate,String dateStr){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formate);
+        try {
+            return simpleDateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

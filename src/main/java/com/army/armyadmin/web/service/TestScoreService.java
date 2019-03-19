@@ -1,13 +1,13 @@
 package com.army.armyadmin.web.service;
 
 import com.army.armyadmin.common.service.IService;
-import com.army.armyadmin.web.domain.TestType;
+import com.army.armyadmin.web.domain.TestScore;
 
 /**
  * @Author:wangjianlin
  * @Description:
- * @Date:Created in 9:17 2019/3/19
+ * @Date:Created in 9:20 2019/3/19
  * @Modified By:
  */
-public interface ITestTypeService extends IService<TestType>{
+public interface TestScoreService extends IService<TestScore>{
 }
