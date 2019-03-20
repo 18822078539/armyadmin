@@ -61,7 +61,7 @@ public class TestScore {
     }
 
     /**
-     * @return score
+     * @return testscore
      */
     public String getScore() {
         return score;
