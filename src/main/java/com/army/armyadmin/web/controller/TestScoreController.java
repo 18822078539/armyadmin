@@ -7,6 +7,7 @@ import com.army.armyadmin.common.domain.ResponseBo;
 import com.army.armyadmin.web.domain.TestProject;
 import com.army.armyadmin.web.domain.TestScore;
 import com.army.armyadmin.web.domain.TestType;
+import com.army.armyadmin.web.service.TestProjectService;
 import com.army.armyadmin.web.service.TestScoreService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -34,6 +35,8 @@ public class TestScoreController extends BaseController {
 
     @Autowired
     private TestScoreService testScoreService;
+    @Autowired
+    private TestProjectService testProjectService;
     @Log("测试成绩维护")
     @RequestMapping("testscore")
     @RequiresPermissions("testscore:list")
@@ -79,6 +82,10 @@ public class TestScoreController extends BaseController {
     public Map<String, Object> testscoreList(QueryRequest request, TestScore testScore) {
         PageHelper.startPage(request.getPageNum(), request.getPageSize());
         List<TestScore> list = this.testScoreService.selectAll();
+        for(TestScore ts:list){
+           TestProject tp =  testProjectService.selectByKey(ts.getProjectid());
+           ts.setProjectName(tp.getName());
+        }
         PageInfo<TestScore> pageInfo = new PageInfo<>(list);
         return getDataTable(pageInfo);
     }

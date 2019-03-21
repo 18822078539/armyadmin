@@ -19,6 +19,17 @@ public class TestScore {
     private String evalute;
     private Integer projectid;
 
+    @Transient
+    private String projectName;
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
     public Integer getProjectid() {
         return projectid;
     }

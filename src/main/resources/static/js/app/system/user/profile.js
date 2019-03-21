@@ -47,7 +47,7 @@ $(function () {
             field: 'userId',
             visible: false
         }, {
-            field: 'projectid',
+            field: 'projectName',
             title: '测试项目'
         }, {
             field: 'score',
