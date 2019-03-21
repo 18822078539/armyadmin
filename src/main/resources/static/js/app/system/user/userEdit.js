@@ -23,6 +23,7 @@ function updateUser() {
             $form.find("input[name='userId']").val(user.userId);
             $form.find("input[name='email']").val(user.email);
             $form.find("input[name='mobile']").val(user.mobile);
+            $form.find("input[name='name']").val(user.name);
             var roleArr = [];
             for (var i = 0; i < user.roleIds.length; i++) {
                 roleArr.push(user.roleIds[i]);

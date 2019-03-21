@@ -19,10 +19,24 @@
     <result column="THEME" jdbcType="VARCHAR" property="theme" />
     <result column="AVATAR" jdbcType="VARCHAR" property="avatar" />
     <result column="DESCRIPTION" jdbcType="VARCHAR" property="description"/>
+	  <result column="name" jdbcType="VARCHAR" property="name"/>
+
   </resultMap>
-  
+	<select id="findUserScore" resultType="user" parameterType="user">
+		SELECT tu.user_id userId,tu.username,tu.name,tu.email,tu.mobile,tu.status,tu.crate_time crateTime,
+		tu.ssex,d.dept_name deptName,tts.score as score,tts.score1 as score1,tts.evalute as evalute
+		from t_user tu left join tb_test_score tts on(tu.USER_ID=tts.userid
+		<if test="projectid != null and projectid != ''">
+			AND  tts.projectid = #{projectid}
+		</if>
+		)  JOIN
+		t_user_role tur ON(tur.USER_ID=tu.USER_ID) join t_dept d on(tu.dept_id = d.dept_id) WHERE tur.ROLE_ID!=1
+		AND tur.ROLE_ID!=2
+
+	</select>
+
   <select id="findUserWithDept" resultType="user" parameterType="user">
-  		select u.user_id userId,u.username,u.email,u.mobile,u.status,u.crate_time crateTime,
+  		select u.user_id userId,u.username,u.name,u.email,u.mobile,u.status,u.crate_time crateTime,
   		u.ssex,d.dept_name deptName from t_user u 
   		left join t_dept d on(u.dept_id = d.dept_id)
   		where 1=1

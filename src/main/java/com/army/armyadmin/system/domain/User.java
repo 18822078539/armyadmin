@@ -86,6 +86,56 @@ public class User implements Serializable {
 
 	@Transient
 	private String roleName;
+	private String name;
+	@Transient
+	private String score;
+
+	@Transient
+	private String score1;
+	@Transient
+	private String evalute;
+	@Transient
+	private Integer projectid;
+
+	public String getEvalute() {
+		return evalute;
+	}
+
+	public void setEvalute(String evalute) {
+		this.evalute = evalute;
+	}
+
+	public Integer getProjectid() {
+		return projectid;
+	}
+
+	public void setProjectid(Integer projectid) {
+		this.projectid = projectid;
+	}
+
+	public String getScore() {
+		return score;
+	}
+
+	public void setScore(String score) {
+		this.score = score;
+	}
+
+	public String getScore1() {
+		return score1;
+	}
+
+	public void setScore1(String score1) {
+		this.score1 = score1;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	/**
 	 * @return USER_ID

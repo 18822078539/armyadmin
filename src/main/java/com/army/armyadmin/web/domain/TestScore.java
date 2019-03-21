@@ -17,6 +17,15 @@ public class TestScore {
     private String score1;
 
     private String evalute;
+    private Integer projectid;
+
+    public Integer getProjectid() {
+        return projectid;
+    }
+
+    public void setProjectid(Integer projectid) {
+        this.projectid = projectid;
+    }
 
     /**
      * @return id

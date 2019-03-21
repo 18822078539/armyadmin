@@ -44,4 +44,17 @@ public class TestProjectServiceImpl extends BaseService<TestProject> implements 
         List<String> list = Arrays.asList(ids.split(","));
         this.batchDelete(list,"id",TestProject.class);
     }
+
+    @Override
+    public List<TestProject> selectAllByType(Integer typeId) {
+        try {
+            Example example = new Example(TestProject.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andCondition("typeid = ", typeId);
+            return this.selectByExample(example);
+        } catch (Exception e) {
+            log.error("获取测试项目失败", e);
+            return new ArrayList<>();
+        }
+    }
 }

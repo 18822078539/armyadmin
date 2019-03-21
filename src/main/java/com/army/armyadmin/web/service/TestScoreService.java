@@ -1,7 +1,10 @@
 package com.army.armyadmin.web.service;
 
+import com.army.armyadmin.common.domain.QueryRequest;
 import com.army.armyadmin.common.service.IService;
 import com.army.armyadmin.web.domain.TestScore;
+
+import java.util.List;
 
 /**
  * @Author:wangjianlin
@@ -10,4 +13,12 @@ import com.army.armyadmin.web.domain.TestScore;
  * @Modified By:
  */
 public interface TestScoreService extends IService<TestScore>{
+    /**
+     * 根据用户id和测试项目id进行数据查询
+     * @param userId
+     * @param projectId
+     * @return
+     */
+    List<TestScore> getDataByUP(Integer userId,Integer projectId);
+
 }

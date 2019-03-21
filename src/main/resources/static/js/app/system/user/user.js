@@ -24,6 +24,9 @@ $(function () {
             field: 'deptName',
             title: '部门'
         }, {
+            field: 'name',
+            title: '姓名'
+        },{
             field: 'email',
             title: '邮箱'
         }, {

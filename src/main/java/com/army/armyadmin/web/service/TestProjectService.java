@@ -16,4 +16,6 @@ public interface TestProjectService extends IService<TestProject>{
     List<TestProject> findAlltestprojects(TestProject testproject, QueryRequest request);
 
     void deletetestprojects(String ids);
+
+    List<TestProject> selectAllByType(Integer typeId);
 }

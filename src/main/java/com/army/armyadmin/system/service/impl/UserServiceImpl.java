@@ -174,4 +174,9 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
         this.updateNotNull(user);
     }
 
+    @Override
+    public List<User> findUserScore(User user) {
+        return userMapper.findUserScore(user);
+    }
+
 }

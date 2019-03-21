@@ -73,6 +73,16 @@ public class UserController extends BaseController {
         return getDataTable(pageInfo);
     }
 
+    @Log("获取用户成绩信息")
+    @RequestMapping("user/listscore")
+    @ResponseBody
+    public Map<String, Object> listscore(QueryRequest request, User user) {
+        PageHelper.startPage(request.getPageNum(), request.getPageSize());
+        List<User> list = this.userService.findUserScore(user);
+        PageInfo<User> pageInfo = new PageInfo<>(list);
+        return getDataTable(pageInfo);
+    }
+
     @RequestMapping("user/excel")
     @ResponseBody
     public ResponseBo userExcel(User user) {

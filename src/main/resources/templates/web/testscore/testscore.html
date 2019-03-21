@@ -4,26 +4,26 @@
             <div id="data-table_wrapper" class="dataTables_wrapper">
                 <div class="dataTables_buttons hidden-sm-down actions">
                     <span class="actions__item zmdi zmdi-search" onclick="search()" title="搜索" />
-                    <span class="actions__item zmdi zmdi-refresh-alt" onclick="refresh()" title="刷新" />
-                    <div class="dropdown actions__item">
-                        <i data-toggle="dropdown" class="zmdi zmdi-download"></i>
-                        <ul class="dropdown-menu dropdown-menu-right">
-                            <a href="javascript:void(0)" class="dropdown-item" data-table-action="excel"  onclick="exporttestscoreExcel()">
-		                    	Excel (.xlsx)
-		                	</a>
-                            <a href="javascript:void(0)" class="dropdown-item" data-table-action="csv"  onclick="exporttestscoreCsv()">
-		                    	CSV (.csv)
-		                	</a>
-                        </ul>
-                    </div>
-                    <div class="dropdown actions__item" shiro:hasAnyPermissions="testscore:add,testscore:delete,testscore:update">
-                        <i data-toggle="dropdown" class="zmdi zmdi-more-vert"></i>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#testscore-add" shiro:hasPermission="testscore:add">新增测试类别</a>
-                            <a href="javascript:void(0)" class="dropdown-item" onclick="updatetestscore()" shiro:hasPermission="testscore:update">修改测试类别</a>
-                            <a href="javascript:void(0)" class="dropdown-item" onclick="deletetestscores();" shiro:hasPermission="testscore:delete">删除测试类别</a>
-                        </div>
-                    </div>
+                    <!--<span class="actions__item zmdi zmdi-refresh-alt" onclick="refresh()" title="刷新" />-->
+                    <!--<div class="dropdown actions__item">-->
+                        <!--<i data-toggle="dropdown" class="zmdi zmdi-download"></i>-->
+                        <!--<ul class="dropdown-menu dropdown-menu-right">-->
+                            <!--<a href="javascript:void(0)" class="dropdown-item" data-table-action="excel"  onclick="exporttestscoreExcel()">-->
+		                    	<!--Excel (.xlsx)-->
+		                	<!--</a>-->
+                            <!--<a href="javascript:void(0)" class="dropdown-item" data-table-action="csv"  onclick="exporttestscoreCsv()">-->
+		                    	<!--CSV (.csv)-->
+		                	<!--</a>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <!--<div class="dropdown actions__item" shiro:hasAnyPermissions="testscore:add,testscore:delete,testscore:update">-->
+                        <!--<i data-toggle="dropdown" class="zmdi zmdi-more-vert"></i>-->
+                        <!--<div class="dropdown-menu dropdown-menu-right">-->
+                            <!--<a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#testscore-add" shiro:hasPermission="testscore:add">新增测试类别</a>-->
+                            <!--<a href="javascript:void(0)" class="dropdown-item" onclick="updatetestscore()" shiro:hasPermission="testscore:update">修改测试类别</a>-->
+                            <!--<a href="javascript:void(0)" class="dropdown-item" onclick="deletetestscores();" shiro:hasPermission="testscore:delete">删除测试类别</a>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
                 <div id="data-table_filter" class="dataTables_filter">
                     <form class="testscore-table-form">
@@ -46,6 +46,7 @@
 					            </span>
                                     <div class="form-group">
                                         <select id="projectid" name="projectid" class="form-control"></select>
+                                        <input type="hidden" id="proId">
                                         <i class="form-group__bar"></i>
                                     </div>
                                 </div>

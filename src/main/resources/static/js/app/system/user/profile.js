@@ -32,6 +32,38 @@ $(function () {
     });
     validateRule();
     createDeptTree();
+    var settings = {
+        url: ctx + "testscore/list",
+        pageSize: 10,
+        queryParams: function (params) {
+            return {
+                pageSize: params.limit,
+                pageNum: params.offset / params.limit + 1,
+            };
+        },
+        columns: [{
+            checkbox: true
+        }, {
+            field: 'userId',
+            visible: false
+        }, {
+            field: 'projectid',
+            title: '测试项目'
+        }, {
+            field: 'score',
+            title: '成绩'
+        },{
+            field: 'score1',
+            title: '得分'
+        }, {
+            field: 'evalute',
+            title: '评价'
+        }
+
+        ]
+    };
+
+    $MB.initTable('scoreTable', settings);
 
     $("#update-profile .btn-save").click(function () {
         getDept();

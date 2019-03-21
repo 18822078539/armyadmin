@@ -140,4 +140,17 @@ public class TestProjectController extends BaseController{
             return ResponseBo.error("修改测试项目失败，请联系网站管理员！");
         }
     }
+
+    @Log("根据测试类别获取测试项目")
+    @RequestMapping("testproject/getByType")
+    @ResponseBody
+    public ResponseBo getByType(Integer typeId) {
+        try {
+            List<TestProject> list = testProjectService.selectAllByType(typeId);
+            return ResponseBo.ok(list);
+        } catch (Exception e) {
+            log.error("获取测试项目失败", e);
+            return ResponseBo.error("获取测试项目失败，请联系网站管理员！");
+        }
+    }
 }

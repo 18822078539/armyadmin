@@ -1,21 +1,23 @@
 //@ sourceURL=testscore.js
 $(function() {
     var $testscoreTableForm = $(".testscore-table-form");
+    getType();
     var settings = {
-        url: ctx + "user/list",
+        url: ctx + "user/listscore",
         pageSize: 10,
         clickToSelect: true,
         queryParams: function(params) {
             return {
                 pageSize: params.limit,
-                pageNum: params.offset / params.limit + 1
+                pageNum: params.offset / params.limit + 1,
+                projectid:$("#projectid").val()
             };
         },
         columns: [{
             checkbox: true
-        }, {
+        },{
             field: 'userId',
-            visible: false
+            title: '用户id'
         }, {
             field: 'username',
             title: '用户名'
@@ -34,110 +36,141 @@ $(function() {
         },
             {
                 field: "score",
-                title: "成绩",
-                editable: {
-                    type: 'text',
-                    title: '成绩',
-                    validate: function (v) {
-                        if (!v) return '成绩不能为空';
-
-                    }
-                }
+                title: "成绩"
             },
             {
                 field: "score1",
-                title: "得分",
-                editable: {
-                    type: 'text',
-                    title: '得分',
-                    validate: function (v) {
-                        if (!v) return '得分不能为空';
-
-                    }
-                }
+                title: "得分"
             },{
                 field: 'evalute',
                 title: '评价'
             },
 
         ],
-        onEditableSave: function (field, row, oldValue, $el) {
-            $.ajax({
-                type: "post",
-                url: "/Editable/Edit",
-                data: row,
-                dataType: 'JSON',
-                success: function (data, status) {
-                    if (status == "success") {
-                        alert('提交数据成功');
-                    }
-                },
-                error: function () {
-                    alert('编辑失败');
-                },
-                complete: function () {
+        /**
+         * @param {点击列的 field 名称} field
+         * @param {点击列的 value 值} value
+         * @param {点击列的整行数据} row
+         * @param {td 元素} $element
+         */
+        onClickCell: function(field, value, row, $element) {
+            if(field=="score"||field=="score1"){
+                $element.attr('contenteditable', true);
+                $element.unbind('blur').bind("blur",function () {
+                    var index = $element.parent().data('index');
+                    var tdValue = $element.html();
+                    saveData(index, field, tdValue);
+                });
+            }
 
-                }
-
-            });
         }
     };
 
     $MB.initTable('testscoreTable', settings);
 });
 
+/**
+ * 获取所有的测试类型
+ */
+function getType() {
+    $.post(ctx + "testtype/getAll",{}, function (r) {
+        var data = r.msg;
+        var option = "<option value='0'>请选择</option>";
+        for (var i = 0; i < data.length; i++) {
+            option += "<option value='" + data[i].id + "'>" + data[i].name + "</option>"
+        }
+        $("#testscore").html("").append(option);
+    });
+    $("#testscore").on("change",function () {
+        var type = $("#testscore").val();
+        console.info("type="+type);
+        $.post(ctx + "testproject/getByType",{typeId:type}, function (r) {
+            var data = r.msg;
+            var option = "<option value='0'>请选择</option>";
+            for (var i = 0; i < data.length; i++) {
+                option += "<option value='" + data[i].id + "'>" + data[i].name + "</option>"
+            }
+            $("#projectid").html("").append(option);
+        });
+    });
+
+    $("#projectid").on("change",function () {
+        $("#proId").val($("#projectid").val());
+    });
+}
+
 function search() {
     $MB.refreshTable('testscoreTable');
 }
 
-function refresh() {
-    $(".testscore-table-form")[0].reset();
-    search();
-}
-
-function deletetestscores() {
-    var selected = $("#testscoreTable").bootstrapTable('getSelections');
-    var selected_length = selected.length;
-    if (!selected_length) {
-        $MB.n_warning('请勾选需要删除的测试类别！');
+function saveData(index, field, value) {
+    console.info($("#projectid").val());
+    if($("#projectid").val()==null){
+        $MB.n_danger("请选择测试项目");
         return;
-    }
-    var ids = "";
-    for (var i = 0; i < selected_length; i++) {
-        ids += selected[i].id;
-        if (i !== (selected_length - 1)) ids += ",";
-    }
-    $MB.confirm({
-        text: "确定删除选中的测试类别？",
-        confirmButtonText: "确定删除"
-    }, function() {
-        $.post(ctx + 'testscore/delete', { "ids": ids }, function(r) {
-            if (r.code === 0) {
-                $MB.n_success(r.msg);
-                refresh();
+    }else {
+        // var selected = $("#testscoreTable").bootstrapTable("getSelections");
+        var selected = $("#testscoreTable").bootstrapTable('getData')
+        var testscoreId = selected[index].userId;
+        var str = "";
+        // var testScore = {};
+        // testScore.userid = testscoreId;
+        // testScore.projectid = $("#projectid").val();
+        if (field == "score1") {
+            if (value == 0) {
+                str = "缺考";
+            } else if (value > 0 && value < 60) {
+                str = "不合格";
+            } else if (value >= 60 && value < 75) {
+                str = "合格";
+            } else if (value >= 75 && value < 90) {
+                str = "良好";
             } else {
-                $MB.n_danger(r.msg);
+                str = "优秀";
             }
-        });
-    });
-}
+            // testScore.evalute = str;
+            // testScore.score1 = value;
+            $("#testscoreTable").bootstrapTable('updateCell', {
+                index: index,       //行索引
+                field: "evalute",       //列名
+                value: str        //cell值
+            })
+            //更新评价和score1数据
+            $.post(ctx + "testscore/update", {
+                userId: testscoreId,
+                projectId: $("#projectid").val(),
+                score1: value,
+                evalute: str
 
-function exporttestscoreExcel(){
-	$.post(ctx+"testscore/excel",$(".testscore-table-form").serialize(),function(r){
-		if (r.code === 0) {
-			window.location.href = "common/download?fileName=" + r.msg + "&delete=" + true;
-		} else {
-			$MB.n_warning(r.msg);
-		}
-	});
-}
+            }, function (r) {
+                if (r.code === 0) {
+                    // closeModal();
+                    search();
 
-function exporttestscoreCsv(){
-	$.post(ctx+"testscore/csv",$(".testscore-table-form").serialize(),function(r){
-		if (r.code === 0) {
-			window.location.href = "common/download?fileName=" + r.msg + "&delete=" + true;
-		} else {
-			$MB.n_warning(r.msg);
-		}
-	});
+                }
+            });
+
+        } else {
+            $("#testscoreTable").bootstrapTable('updateCell', {
+                index: index,       //行索引
+                field: field,       //列名
+                value: value        //cell值
+            })
+            //更新score数据
+            $.post(ctx + "testscore/update", {
+                userId: testscoreId,
+                projectId: $("#projectid").val(),
+                score: value
+            }, function (r) {
+                if (r.code === 0) {
+                    // closeModal();
+                    search();
+                    // $MB.n_success(r.msg);
+                }
+            });
+
+        }
+        // testScore.score = value;
+    }
+
 }
