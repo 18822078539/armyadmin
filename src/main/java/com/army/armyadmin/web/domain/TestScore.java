@@ -21,6 +21,47 @@ public class TestScore {
 
     @Transient
     private String projectName;
+    @Transient
+    private String typeName;
+    @Transient
+    private Integer rankno;
+    @Transient
+    private Integer num;
+    @Transient
+    private Integer avgscore;
+
+
+    public Integer getRankno() {
+        return rankno;
+    }
+
+    public void setRankno(Integer rankno) {
+        this.rankno = rankno;
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public Integer getAvgscore() {
+        return avgscore;
+    }
+
+    public void setAvgscore(Integer avgscore) {
+        this.avgscore = avgscore;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
     public String getProjectName() {
         return projectName;

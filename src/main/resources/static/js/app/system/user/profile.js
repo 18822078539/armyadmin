@@ -1,6 +1,8 @@
+//@ sourceURL=profile.js
 var validator;
 var $userProfileForm = $("#update-profile-form");
 $(function () {
+    getStatics();
     $(".profile__img").find("img").attr("src", avatar);
     $("#update-profile").bind('hide.bs.modal', function () {
         $(".modal-backdrop").remove();
@@ -33,8 +35,8 @@ $(function () {
     validateRule();
     createDeptTree();
     var settings = {
-        url: ctx + "testscore/list",
-        pageSize: 10,
+        url: ctx + "testscore/mylist",
+        pageSize: 100,
         queryParams: function (params) {
             return {
                 pageSize: params.limit,
@@ -46,7 +48,11 @@ $(function () {
         }, {
             field: 'userId',
             visible: false
-        }, {
+        },{
+            field: 'typeName',
+            title: '测试类别'
+        },
+            {
             field: 'projectName',
             title: '测试项目'
         }, {
@@ -164,6 +170,33 @@ function createDeptTree() {
         }
     })
 
+}
+
+function getStatics() {
+    $.post(ctx + "testscore/getstatics", {}, function (r) {
+        if (r.code === 0) {
+            var data = r.msg;
+            console.info(data);
+            $("#sumscore").html(data.score);
+            $("#rankno").html(data.rankno);
+            $("#avgscore").html(data.avgscore);
+            if(data.avgscore>=90){
+                $("#pj").html("优秀");
+
+            }else if(data.avgscore>=75 && data.avgscore<90){
+                $("#pj").html("良好");
+            }else if(data.avgscore>=60 && data.avgscore<75){
+                $("#pj").html("合格");
+            }else{
+                $("#pj").html("不合格");
+            }
+            if(data.avgscore==0){
+                $("#pj").html("缺考");
+            }
+        } else {
+            $MB.n_danger(r.msg);
+        }
+    })
 }
 
 function getDept() {

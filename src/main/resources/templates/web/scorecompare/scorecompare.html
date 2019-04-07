@@ -1,0 +1,207 @@
+<div class="row">
+    <div class="col-sm-3">
+        <div class="input-group">
+                                    <span class="input-group-addon">
+					               	对比人账号：
+					            </span>
+            <div class="form-group">
+                <input type="text" class="form-control" id="otherusername"></input>
+                <i class="form-group__bar"></i>
+                
+            </div>
+            <div class="form-group">
+                <button class="form-control" onclick="compare()">开始比对</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<div style="display: flex;">
+<div style="width: 50%">
+    <div class="card profile" style="padding: 1.2rem">
+        <table id="scoreTable" data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"
+               style="width: 100%"></table>
+    </div>
+    <div class="card profile" style="padding: 1.2rem">
+        总成绩
+
+    </div>
+    <div class="card profile" style="padding: 1.2rem">
+
+        <table style="width: 100%" class="mb-bootstrap-table text-nowrap">
+            <tr>
+                <td>总得分：</td>
+                <td><span id="sumscore"></span></td>
+                <td>总排名：</td>
+                <td><span id="rankno"></span></td>
+            </tr>
+            <tr>
+                <td>总均分：</td>
+                <td><span id="avgscore"></span></td>
+                <td>总评价：</td>
+                <td><span id="pj"></span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div style="width: 50%">
+    <div class="card profile" style="padding: 1.2rem">
+        <table id="scoreTable1" data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"
+               style="width: 100%"></table>
+    </div>
+    <div class="card profile" style="padding: 1.2rem">
+        总成绩
+
+    </div>
+    <div class="card profile" style="padding: 1.2rem">
+
+        <table style="width: 100%" class="mb-bootstrap-table text-nowrap">
+            <tr>
+                <td>总得分：</td>
+                <td><span id="sumscore1"></span></td>
+                <td>总排名：</td>
+                <td><span id="rankno1"></span></td>
+            </tr>
+            <tr>
+                <td>总均分：</td>
+                <td><span id="avgscore1"></span></td>
+                <td>总评价：</td>
+                <td><span id="pj1"></span></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</div>
+<script>
+    function compare(){
+        console.info("触发比对方法");
+        getOtherStatics();
+        var settings = {
+            url: ctx + "testscore/otherlist",
+            pageSize: 100,
+            queryParams: function (params) {
+                return {
+                    pageSize: params.limit,
+                    pageNum: params.offset / params.limit + 1,
+                    otherUsername:$("#otherusername").val()
+                };
+            },
+            columns: [ {
+                field: 'userId',
+                visible: false
+            },{
+                field: 'typeName',
+                title: '测试类别'
+            },
+                {
+                    field: 'projectName',
+                    title: '测试项目'
+                }, {
+                    field: 'score',
+                    title: '成绩'
+                },{
+                    field: 'score1',
+                    title: '得分'
+                }, {
+                    field: 'evalute',
+                    title: '评价'
+                }
+
+            ]
+        };
+
+        $MB.initTable('scoreTable1', settings);
+        $MB.refreshTable('scoreTable1');
+    }
+    $(function () {
+    getStatics();
+    var settings = {
+        url: ctx + "testscore/mylist",
+        pageSize: 100,
+        queryParams: function (params) {
+            return {
+                pageSize: params.limit,
+                pageNum: params.offset / params.limit + 1,
+            };
+        },
+        columns: [ {
+            field: 'userId',
+            visible: false
+        },{
+            field: 'typeName',
+            title: '测试类别'
+        },
+            {
+                field: 'projectName',
+                title: '测试项目'
+            }, {
+                field: 'score',
+                title: '成绩'
+            },{
+                field: 'score1',
+                title: '得分'
+            }, {
+                field: 'evalute',
+                title: '评价'
+            }
+
+        ]
+    };
+
+    $MB.initTable('scoreTable', settings);
+    })
+
+    function getStatics() {
+        $.post(ctx + "testscore/getstatics", {}, function (r) {
+            if (r.code === 0) {
+                var data = r.msg;
+                console.info(data);
+                $("#sumscore").html(data.score);
+                $("#rankno").html(data.rankno);
+                $("#avgscore").html(data.avgscore);
+                if(data.avgscore>=90){
+                    $("#pj").html("优秀");
+
+                }else if(data.avgscore>=75 && data.avgscore<90){
+                    $("#pj").html("良好");
+                }else if(data.avgscore>=60 && data.avgscore<75){
+                    $("#pj").html("合格");
+                }else{
+                    $("#pj").html("不合格");
+                }
+                if(data.avgscore==0){
+                    $("#pj").html("缺考");
+                }
+            } else {
+                $MB.n_danger(r.msg);
+            }
+        })
+    }
+
+    function getOtherStatics() {
+        $.post(ctx + "testscore/getotherstatics", {username:$("#otherusername").val()}, function (r) {
+            if (r.code === 0) {
+                var data = r.msg;
+                console.info(data);
+                $("#sumscore1").html(data.score);
+                $("#rankno1").html(data.rankno);
+                $("#avgscore1").html(data.avgscore);
+                if(data.avgscore>=90){
+                    $("#pj1").html("优秀");
+
+                }else if(data.avgscore>=75 && data.avgscore<90){
+                    $("#pj1").html("良好");
+                }else if(data.avgscore>=60 && data.avgscore<75){
+                    $("#pj1").html("合格");
+                }else{
+                    $("#pj1").html("不合格");
+                }
+                if(data.avgscore==0){
+                    $("#pj1").html("缺考");
+                }
+            } else {
+                $MB.n_danger(r.msg);
+            }
+        })
+    }
+</script>

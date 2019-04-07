@@ -12,4 +12,10 @@
     <result column="score1" jdbcType="VARCHAR" property="score1" />
     <result column="evalute" jdbcType="VARCHAR" property="evalute" />
   </resultMap>
+  <select id="getSumScore" resultMap="BaseResultMap" parameterType="com.army.armyadmin.web.domain.TestScore">
+    SELECT @rank:=@rank + 1 AS rankno, a.userid, a.score as score,a.num as num,
+    a.avgscore as avgscore FROM (SELECT userid, SUM(score1) as score,count(*) as num,
+    SUM(score1)/count(*) as avgscore from tb_test_score tts GROUP BY userid ORDER BY avgscore DESC) a
+    ,(SELECT @rank:= 0) b
+  </select>
 </mapper>
