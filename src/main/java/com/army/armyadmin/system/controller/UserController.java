@@ -68,7 +68,7 @@ public class UserController extends BaseController {
     @ResponseBody
     public Map<String, Object> userList(QueryRequest request, User user) {
         PageHelper.startPage(request.getPageNum(), request.getPageSize());
-        List<User> list = this.userService.findUserWithDept(user);
+        List<User> list = this.userService.findUser(user);
         PageInfo<User> pageInfo = new PageInfo<>(list);
         return getDataTable(pageInfo);
     }

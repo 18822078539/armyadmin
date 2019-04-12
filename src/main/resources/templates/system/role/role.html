@@ -21,9 +21,9 @@
                     <div class="dropdown actions__item" shiro:hasAnyPermissions="role:add,role:delete,role:update">
                         <i data-toggle="dropdown" class="zmdi zmdi-more-vert"></i>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#role-add" shiro:hasPermission="role:add">新增角色</a>
-                            <a href="javascript:void(0)" class="dropdown-item" onclick="updateRole()" shiro:hasPermission="role:update">修改角色</a>
-                            <a href="javascript:void(0)" class="dropdown-item" onclick="deleteRoles()" shiro:hasPermission="role:delete">删除角色</a>
+                            <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#role-add" shiro:hasPermission="role:add">新增人员类别</a>
+                            <a href="javascript:void(0)" class="dropdown-item" onclick="updateRole()" shiro:hasPermission="role:update">修改人员类别</a>
+                            <a href="javascript:void(0)" class="dropdown-item" onclick="deleteRoles()" shiro:hasPermission="role:delete">删除人员类别</a>
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                             <div class="col-sm-3">
                                 <div class="input-group">
                                     <span class="input-group-addon">
-					               	角色：
+					               	人员类别：
 					            </span>
                                     <div class="form-group">
                                         <input type="text" name="roleName" class="form-control">

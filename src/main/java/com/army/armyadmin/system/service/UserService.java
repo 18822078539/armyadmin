@@ -41,4 +41,6 @@ public interface UserService extends IService<User> {
     void updateUserProfile(User user);
 
     List<User> findUserScore(User user);
+
+    List<User> findUser(User user);
 }

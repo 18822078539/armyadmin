@@ -2,6 +2,7 @@ package com.army.armyadmin.web.service;
 
 import com.army.armyadmin.common.domain.QueryRequest;
 import com.army.armyadmin.common.service.IService;
+import com.army.armyadmin.web.domain.TestProject;
 import com.army.armyadmin.web.domain.TestScore;
 
 import java.util.List;
@@ -32,4 +33,5 @@ public interface TestScoreService extends IService<TestScore>{
 
     List<TestScore> selectProId(Integer proId);
 
+    List<TestScore> findAllTestScore(TestScore testScore, QueryRequest request);
 }

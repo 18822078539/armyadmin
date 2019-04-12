@@ -4,11 +4,13 @@ import com.army.armyadmin.common.service.impl.BaseService;
 import com.army.armyadmin.common.util.MD5Utils;
 import com.army.armyadmin.system.dao.UserMapper;
 import com.army.armyadmin.system.dao.UserRoleMapper;
+import com.army.armyadmin.system.domain.Menu;
 import com.army.armyadmin.system.domain.User;
 import com.army.armyadmin.system.domain.UserRole;
 import com.army.armyadmin.system.domain.UserWithRole;
 import com.army.armyadmin.system.service.UserRoleService;
 import com.army.armyadmin.system.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,6 +179,27 @@ public class UserServiceImpl extends BaseService<User> implements UserService {
     @Override
     public List<User> findUserScore(User user) {
         return userMapper.findUserScore(user);
+    }
+
+    @Override
+    public List<User> findUser(User user) {
+        try {
+            Example example = new Example(User.class);
+            Example.Criteria criteria = example.createCriteria();
+            if (StringUtils.isNotBlank(user.getUsername())) {
+                criteria.andCondition("username=", user.getUsername());
+            }
+            if (StringUtils.isNotBlank(user.getSsex())) {
+                criteria.andCondition("ssex=", user.getSsex());
+            }
+            if (StringUtils.isNotBlank(user.getStatus())) {
+                criteria.andCondition("status=", user.getStatus());
+            }
+            return this.selectByExample(example);
+        } catch (NumberFormatException e) {
+            log.error("error", e);
+            return new ArrayList<>();
+        }
     }
 
 }
