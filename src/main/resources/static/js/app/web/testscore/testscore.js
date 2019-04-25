@@ -139,6 +139,7 @@ function saveData(index, field, value) {
             $.post(ctx + "testscore/update", {
                 userId: testscoreId,
                 projectId: $("#projectid").val(),
+                score:$("#score").val(),
                 score1: value,
                 evalute: str
 
@@ -156,19 +157,20 @@ function saveData(index, field, value) {
                 field: field,       //列名
                 value: value        //cell值
             })
+            $("#score").val(value);
             //更新score数据
-            $.post(ctx + "testscore/update", {
-                userId: testscoreId,
-                projectId: $("#projectid").val(),
-                score: value
-            }, function (r) {
-                if (r.code === 0) {
-                    // closeModal();
-                    search();
-                    // $MB.n_success(r.msg);
-                }
-            });
-
+        //     $.post(ctx + "testscore/update", {
+        //         userId: testscoreId,
+        //         projectId: $("#projectid").val(),
+        //         score: value
+        //     }, function (r) {
+        //         if (r.code === 0) {
+        //             // closeModal();
+        //             search();
+        //             // $MB.n_success(r.msg);
+        //         }
+        //     });
+        //
         }
         // testScore.score = value;
     }

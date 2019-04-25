@@ -59,17 +59,17 @@ public class TestScoreController extends BaseController {
     public ResponseBo updateTestScore(Integer userId,Integer projectId,
                                       String score,String score1,String evalute) {
         try {
-            List<TestScore> list = testScoreService.getDataByUP(userId,projectId);
-            if(list!=null&&list.size()>0){
-                //说明此时数据存在，需进行更新操作
-                TestScore testScore = list.get(0);
-                testScore.setScore(score);
-                testScore.setScore1(score1);
-                testScore.setEvalute(evalute);
-                testScore.setProjectid(projectId);
-                testScore.setUserid(userId);
-                testScoreService.updateNotNull(testScore);
-            }else{
+//            List<TestScore> list = testScoreService.getDataByUP(userId,projectId);
+//            if(list!=null&&list.size()>0){
+//                //说明此时数据存在，需进行更新操作
+//                TestScore testScore = list.get(0);
+//                testScore.setScore(score);
+//                testScore.setScore1(score1);
+//                testScore.setEvalute(evalute);
+//                testScore.setProjectid(projectId);
+//                testScore.setUserid(userId);
+//                testScoreService.updateNotNull(testScore);
+//            }else{
                 TestScore testScore = new TestScore();
                 testScore.setScore(score);
                 testScore.setScore1(score1);
@@ -77,11 +77,11 @@ public class TestScoreController extends BaseController {
                 testScore.setProjectid(projectId);
                 testScore.setUserid(userId);
                 testScoreService.save(testScore);
-            }
-            return ResponseBo.ok("修改测试成绩成功！");
+//            }
+            return ResponseBo.ok("新增测试成绩成功！");
         } catch (Exception e) {
-            log.error("修改测试成绩失败", e);
-            return ResponseBo.error("修改测试成绩失败，请联系网站管理员！");
+            log.error("新增测试成绩失败", e);
+            return ResponseBo.error("新增测试成绩失败，请联系网站管理员！");
         }
     }
 
