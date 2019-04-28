@@ -11,6 +11,10 @@
     <result column="score" jdbcType="VARCHAR" property="score" />
     <result column="score1" jdbcType="VARCHAR" property="score1" />
     <result column="evalute" jdbcType="VARCHAR" property="evalute" />
+    <result column="testtime" jdbcType="VARCHAR" property="testtime" />
+
+    <result column="projectid" jdbcType="INTEGER" property="projectid" />
+    <result column="typeid" jdbcType="INTEGER" property="typeid" />
   </resultMap>
   <select id="getSumScore" resultMap="BaseResultMap" parameterType="com.army.armyadmin.web.domain.TestScore">
     SELECT @rank:=@rank + 1 AS rankno, a.userid, a.score as score,a.num as num,

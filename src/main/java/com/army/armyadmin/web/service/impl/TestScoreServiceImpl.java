@@ -43,6 +43,19 @@ public class TestScoreServiceImpl extends BaseService<TestScore> implements Test
     }
 
     @Override
+    public List<TestScore> getDataByUT(Integer userId, Integer typeId) {
+        try {
+            Example example = new Example(TestScore.class);
+            example.createCriteria().andCondition("userid = ",userId).andCondition("typeid = ",typeId);
+            example.orderBy("testtime");
+            return this.selectByExample(example);
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<TestScore> selectData(Integer userId) {
         try {
             Example example = new Example(TestScore.class);

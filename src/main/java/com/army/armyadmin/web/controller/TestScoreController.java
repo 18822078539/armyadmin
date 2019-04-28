@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,26 +59,33 @@ public class TestScoreController extends BaseController {
     @ResponseBody
     public ResponseBo updateTestScore(Integer userId,Integer projectId,
                                       String score,String score1,String evalute) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
-//            List<TestScore> list = testScoreService.getDataByUP(userId,projectId);
-//            if(list!=null&&list.size()>0){
-//                //说明此时数据存在，需进行更新操作
-//                TestScore testScore = list.get(0);
-//                testScore.setScore(score);
-//                testScore.setScore1(score1);
-//                testScore.setEvalute(evalute);
-//                testScore.setProjectid(projectId);
-//                testScore.setUserid(userId);
-//                testScoreService.updateNotNull(testScore);
-//            }else{
+            TestProject testProject = testProjectService.selectByKey(projectId);
+            TestType testType = testTypeService.selectByKey(testProject.getTypeid());
+            List<TestScore> list = testScoreService.getDataByUP(userId,projectId);
+            if(list!=null&&list.size()>0){
+                //说明此时数据存在，需进行更新操作
+                TestScore testScore = list.get(0);
+                testScore.setScore(score);
+                testScore.setScore1(score1);
+                testScore.setEvalute(evalute);
+                testScore.setProjectid(projectId);
+                testScore.setUserid(userId);
+                testScore.setTypeid(testType.getId());
+                testScore.setTestTime(simpleDateFormat.format(testProject.getTesttime()));
+                testScoreService.updateNotNull(testScore);
+            }else{
                 TestScore testScore = new TestScore();
                 testScore.setScore(score);
                 testScore.setScore1(score1);
                 testScore.setEvalute(evalute);
                 testScore.setProjectid(projectId);
                 testScore.setUserid(userId);
+                testScore.setTypeid(testType.getId());
+                testScore.setTestTime(simpleDateFormat.format(testProject.getTesttime()));
                 testScoreService.save(testScore);
-//            }
+            }
             return ResponseBo.ok("新增测试成绩成功！");
         } catch (Exception e) {
             log.error("新增测试成绩失败", e);
@@ -212,6 +220,30 @@ public class TestScoreController extends BaseController {
         try {
             User user = super.getCurrentUser();
             List<TestScore> testScores = testScoreService.getDataByUP(Integer.parseInt(user.getUserId()+""),proId);
+            return ResponseBo.ok(testScores);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseBo.error("查询失败");
+        }
+
+    }
+
+    /**
+     * 查询当前用户的指定项目的考试成绩
+     * @return
+     */
+    @RequestMapping("testscore/getMyDataByTypeId")
+    @ResponseBody
+    public ResponseBo getMyDataByTypeId(Integer proId){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            User user = super.getCurrentUser();
+            List<TestScore> testScores = testScoreService.getDataByUT(Integer.parseInt(user.getUserId()+""),proId);
+            //获取成绩的所属项目时间
+//            for(TestScore item:testScores){
+//                TestProject project = testProjectService.selectByKey(item.getProjectid());
+//                item.setTestTime(simpleDateFormat.format(project.getTesttime()));
+//            }
             return ResponseBo.ok(testScores);
         }catch (Exception e){
             e.printStackTrace();

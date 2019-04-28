@@ -10,18 +10,18 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-3">
-        <div class="input-group">
-                                    <span class="input-group-addon">
-					               	测试项目：
-					            </span>
-            <div class="form-group">
-                <select id="projectid" name="projectid" class="form-control"></select>
-                <input type="hidden" id="proId">
-                <i class="form-group__bar"></i>
-            </div>
-        </div>
-    </div>
+    <!--<div class="col-sm-3">-->
+        <!--<div class="input-group">-->
+                                    <!--<span class="input-group-addon">-->
+					               	<!--测试项目：-->
+					            <!--</span>-->
+            <!--<div class="form-group">-->
+                <!--<select id="projectid" name="projectid" class="form-control"></select>-->
+                <!--<input type="hidden" id="proId">-->
+                <!--<i class="form-group__bar"></i>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 
 <div id="container" style="min-width:400px;height:400px"></div>
@@ -44,40 +44,48 @@
         $("#testscore").on("change",function () {
             var type = $("#testscore").val();
             console.info("type="+type);
-            $.post(ctx + "testproject/getByType",{typeId:type}, function (r) {
-                var data = r.msg;
-                var option = "<option value='0'>请选择</option>";
-                for (var i = 0; i < data.length; i++) {
-                    option += "<option value='" + data[i].id + "'>" + data[i].name + "</option>"
-                }
-                $("#projectid").html("").append(option);
-            });
+            getScore(type);
+            getAllScore(type);
+//            $.post(ctx + "testproject/getByType",{typeId:type}, function (r) {
+//                var data = r.msg;
+//                var option = "<option value='0'>请选择</option>";
+//                for (var i = 0; i < data.length; i++) {
+//                    option += "<option value='" + data[i].id + "'>" + data[i].name + "</option>"
+//                }
+//                $("#projectid").html("").append(option);
+//            });
         });
 
-        $("#projectid").on("change",function () {
-            // $("#proId").val($("#projectid").val());
-            getScore($("#projectid").val());
-            getAllScore($("#projectid").val());
-        });
+//        $("#projectid").on("change",function () {
+//            // $("#proId").val($("#projectid").val());
+//            getScore($("#projectid").val());
+//            getAllScore($("#projectid").val());
+//        });
     }
 
     /**
      * 获取成绩并进行折线图显示
      */
     function getScore(proId) {
-        $.post(ctx + "testscore/getMyDataByProId",{proId:proId}, function (r) {
+        $.post(ctx + "testscore/getMyDataByTypeId",{proId:proId}, function (r) {
             var data = r.msg;
             var arr = [];
+            var timeArr = [];
             for(var i=0;i<data.length;i++){
                 arr[i] = Number(data[i].score1);
+                timeArr[i] = data[i].testTime;
             }
             console.info(arr)
+            console.info(timeArr)
             var chart = Highcharts.chart('container', {
                 title: {
                     text: '个人成绩统计表'
                 },
                 subtitle: {
                     text: '数据来源：部队管理系统'
+                },
+                xAxis: {
+                    categories:timeArr
                 },
                 yAxis: {
                     title: {
@@ -90,11 +98,13 @@
                     verticalAlign: 'middle'
                 },
                 plotOptions: {
-                    series: {
-                        label: {
-                            connectorAllowed: false
+                    line: {
+                        dataLabels: {
+                            // 开启数据标签
+                            enabled: true
                         },
-                        pointStart: 1
+                        // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+                        enableMouseTracking: false
                     }
                 },
                 series: [{

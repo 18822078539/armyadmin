@@ -22,6 +22,8 @@ public interface TestScoreService extends IService<TestScore>{
      */
     List<TestScore> getDataByUP(Integer userId,Integer projectId);
 
+    List<TestScore> getDataByUT(Integer userId,Integer typeId);
+
     /**
      * 根据用户id查询成绩
      * @param userId 用户id

@@ -135,21 +135,24 @@ function saveData(index, field, value) {
                 field: "evalute",       //列名
                 value: str        //cell值
             })
-            //更新评价和score1数据
-            $.post(ctx + "testscore/update", {
-                userId: testscoreId,
-                projectId: $("#projectid").val(),
-                score:$("#score").val(),
-                score1: value,
-                evalute: str
+            if($("#score").val()!="" && value!=""){
+                //更新评价和score1数据
+                $.post(ctx + "testscore/update", {
+                    userId: testscoreId,
+                    projectId: $("#projectid").val(),
+                    score:$("#score").val(),
+                    score1: value,
+                    evalute: str
 
-            }, function (r) {
-                if (r.code === 0) {
-                    // closeModal();
-                    search();
+                }, function (r) {
+                    if (r.code === 0) {
+                        // closeModal();
+                        search();
 
-                }
-            });
+                    }
+                });
+            }
+
 
         } else {
             $("#testscoreTable").bootstrapTable('updateCell', {

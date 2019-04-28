@@ -30,6 +30,25 @@ public class TestScore {
     @Transient
     private Integer avgscore;
 
+    private Integer typeid;
+
+    private String testtime;
+
+    public String getTestTime() {
+        return testtime;
+    }
+
+    public void setTestTime(String testTime) {
+        this.testtime = testTime;
+    }
+
+    public Integer getTypeid() {
+        return typeid;
+    }
+
+    public void setTypeid(Integer typeid) {
+        this.typeid = typeid;
+    }
 
     public Integer getRankno() {
         return rankno;
